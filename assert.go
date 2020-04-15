@@ -21,7 +21,12 @@
 // in your application
 package assert
 
-import "flag"
+import (
+	"flag"
+	"fmt"
+	"log"
+	"runtime"
+)
 
 var enabled = flag.Bool("enableassertions", false,
 	"Set to true to enable assertions for the application or false to disable assertion")
@@ -29,4 +34,38 @@ var enabled = flag.Bool("enableassertions", false,
 func init() {
 	flag.BoolVar(enabled, "ea", *enabled,
 		"Set to true to enable assertions for the application or false to disable assertion")
+}
+
+// When validates expression and, if assertions are enabled and expression is true,
+// print error message and exit from application with error status 1
+func When(expression bool, message string, params ...interface{}) {
+	if !*enabled || !expression {
+		return
+	}
+
+	callerInfo := buildCallerInformation(true)
+	log.Fatalf(buildErrorMessageWithCallerMetadata(callerInfo, message, params...))
+}
+
+// buildErrorMessageWithCallerMetadata builds error message using caller information
+// and then join this with custom message (optionally with params) and return
+// string built by format template.
+func buildErrorMessageWithCallerMetadata(callerInformation, message string, params ...interface{}) string {
+	assertionMessagePrefix := fmt.Sprintf("Assertion error %s: ", callerInformation)
+	return fmt.Sprintf(assertionMessagePrefix+message, params...)
+}
+
+// buildCallerInformation extracts caller information (filename and line) from runtime
+// and combine this information into pre-formatted string
+func buildCallerInformation(skipMe bool) string {
+	skipCallers := 1 // skip this call by default
+	if skipMe {
+		skipCallers++ // Skip caller by request
+	}
+
+	_, file, line, ok := runtime.Caller(skipCallers)
+	if ok {
+		return fmt.Sprintf("in %s#%d", file, line)
+	}
+	return ""
 }
