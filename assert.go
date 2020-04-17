@@ -3,7 +3,9 @@
 // license that can be found in the LICENSE file
 
 // Package assert is a simple library that allows developers to quickly
-// verify certain assumptions or state of a program.
+// verify certain assumptions or state of a program. Once assertions
+// enabled and assertion expression equals `true` assertion library will exit
+// from your application with exit status 1 and write assertion error to your output.
 //
 // This library extends your application's command-line API with two flags:
 // 		--ea, --enableassertions
