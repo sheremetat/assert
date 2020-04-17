@@ -1,5 +1,5 @@
 # Assert - Golang assertion library
-![](https://github.com/sheremetat/assert/workflows/Verification/badge.svg)
+![](https://github.com/sheremetat/assert/workflows/Verification/badge.svg) [![GoDoc](https://godoc.org/github.com/sheremetat/assert?status.svg)](https://pkg.go.dev/github.com/sheremetat/assert)
 
 This simple library allows developers to quickly verify certain assumptions or state of a Golang program. Once assertions enabled and assertion expression equals `true` assertion library will exit from your application with exit status 1 and write assertion error to your output.
 
