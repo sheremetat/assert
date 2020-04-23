@@ -79,6 +79,20 @@ Example log output:
     Assertion error in /path/to/project/main/main.go#10: Unsupported KEY `key`
     exit status 1
 
+### Benchmarks
+
+When assertions are disabled, the call of assert function will not affect your application performance:
+
+
+    $ go test -bench .
+    goos: darwin
+    goarch: amd64
+    pkg: github.com/sheremetat/assert
+    BenchmarkWhenWithDisabledAssertions-12     487358498     2.34 ns/op      0 B/op    0 allocs/op
+    PASS
+    ok      github.com/sheremetat/assert    1.895s
+
+
 ## Best Practices
 
 The most important thing to remember about assertions is that they can be disabled, so never assume they'll be executed.

@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func TestItWithEnabledAssertionsAndTrueExpression(t *testing.T) {
+func TestWhenWithEnabledAssertionsAndTrueExpression(t *testing.T) {
 	b := true
 	enabled = &b
 
@@ -16,7 +16,7 @@ func TestItWithEnabledAssertionsAndTrueExpression(t *testing.T) {
 		return
 	}
 
-	cmd := exec.Command(os.Args[0], "-test.run=TestItWithEnabledAssertionsAndTrueExpression")
+	cmd := exec.Command(os.Args[0], "-test.run=TestWhenWithEnabledAssertionsAndTrueExpression")
 	cmd.Env = append(os.Environ(), "FLAG=1")
 	err := cmd.Run()
 
@@ -31,7 +31,7 @@ func TestItWithEnabledAssertionsAndTrueExpression(t *testing.T) {
 	}
 }
 
-func TestItWithEnabledAssertionsAndFalseExpression(t *testing.T) {
+func TestWhenWithEnabledAssertionsAndFalseExpression(t *testing.T) {
 	b := true
 	enabled = &b
 
@@ -40,7 +40,7 @@ func TestItWithEnabledAssertionsAndFalseExpression(t *testing.T) {
 		return
 	}
 
-	cmd := exec.Command(os.Args[0], "-test.run=TestItWithEnabledAssertionsAndFalseExpression")
+	cmd := exec.Command(os.Args[0], "-test.run=TestWhenWithEnabledAssertionsAndFalseExpression")
 	cmd.Env = append(os.Environ(), "FLAG=1")
 	err := cmd.Run()
 
@@ -54,7 +54,7 @@ func TestItWithEnabledAssertionsAndFalseExpression(t *testing.T) {
 	}
 }
 
-func TestItWithDisabledAssertions(t *testing.T) {
+func TestWhenWithDisabledAssertions(t *testing.T) {
 	b := false
 	enabled = &b
 
@@ -63,7 +63,7 @@ func TestItWithDisabledAssertions(t *testing.T) {
 		return
 	}
 
-	cmd := exec.Command(os.Args[0], "-test.run=TestItWithDisabledAssertions")
+	cmd := exec.Command(os.Args[0], "-test.run=TestWhenWithDisabledAssertions")
 	cmd.Env = append(os.Environ(), "FLAG=1")
 	err := cmd.Run()
 
@@ -157,5 +157,12 @@ func Test_buildCallerInformation(t *testing.T) {
 				t.Errorf("buildCallerInformation() must contains file name `%s`, but was %s", tt.want, got)
 			}
 		})
+	}
+}
+
+func BenchmarkWhenWithDisabledAssertions(b *testing.B) {
+	b.ReportAllocs()
+	for i := 0; i < b.N; i++ {
+		When(true, "test message")
 	}
 }
